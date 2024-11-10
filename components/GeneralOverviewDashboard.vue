@@ -36,11 +36,15 @@
 </template>
 
 <script setup lang="ts">
+import type { Invoice } from '@/types/General';
 interface Props {
     type: 'invoices' | 'payments';
+    data: Invoice[];
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const { data } = toRefs(props);
 </script>
 
 <style scoped></style>

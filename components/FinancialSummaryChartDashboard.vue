@@ -1,6 +1,6 @@
 <template>
     <div rounded-2 p-4 flex-auto block-shadow overflow-y-auto class="sm:p-6">
-        <div flex justify-between items-center gap-15 mb-5 w-100%>
+        <div flex justify-between items-center gap-15 mb-5 w-auto>
             <div v-if="type === 'invoices'" flex items-center gap-1>
                 <div i-mdi-chart-line-variant text-green-5 />
                 <span>Invoiced</span>
