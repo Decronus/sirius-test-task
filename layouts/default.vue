@@ -8,9 +8,9 @@
 
 <style scoped>
 .default-layout {
-    padding: 48px calc(50% - 570px);
+    padding: 48px calc(50% - 460px);
 
-    @media (max-width: 1200px) {
+    @media (max-width: 980px) {
         padding: 48px 30px;
     }
 

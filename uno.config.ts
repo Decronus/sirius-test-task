@@ -7,7 +7,7 @@ export default defineConfig({
         ['text-primary-blue', { color: '#116ACC' }],
         ['border-primary-light', { 'border-color': '#F8FAFF' }],
         ['bg-primary-light', { 'background-color': '#F8FAFF' }],
-        ['block-shadow', { 'box-shadow': '0px 4px 30px rgba(0, 0, 0, 0.12)' }],
+        ['block-shadow', { 'box-shadow': '0px 2px 16px rgba(0, 0, 0, 0.1)' }],
     ],
     presets: [
         presetUno(),

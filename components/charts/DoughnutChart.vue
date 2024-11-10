@@ -5,9 +5,6 @@
 <script setup>
 import { ref } from 'vue';
 import { Doughnut } from 'vue-chartjs';
-import { Chart as ChartJS, Title, Tooltip, ArcElement } from 'chart.js';
-
-ChartJS.register(Title, Tooltip, ArcElement);
 
 const chartData = ref({
     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
