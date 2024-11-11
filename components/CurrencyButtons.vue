@@ -39,7 +39,8 @@ const { modelValue } = toRefs(props);
 
 const emit = defineEmits<{ 'update:modelValue': [currency: Currency] }>();
 
-const currencyCookie = useCookie('currency');
+const currencyCookie = useCookie<Currency>('currency');
+if (!currencyCookie.value) currencyCookie.value = 'MDL';
 
 const currency = computed<Currency>({
     get: () => modelValue.value,

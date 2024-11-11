@@ -3,6 +3,6 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     modules: ['@unocss/nuxt', '@nuxt/eslint', '@element-plus/nuxt', '@pinia/nuxt'],
     components: {
-        dirs: ['~/components/charts', '~/components'],
+        dirs: ['~/components/charts', '~/components/dashboards', '~/components'],
     },
 });

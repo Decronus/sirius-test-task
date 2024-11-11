@@ -19,7 +19,7 @@
 
         <div flex justify-between gap-4 class="max-sm:flex-col items-center">
             <div w-32 h-32 class="max-lg:w-28 h-28">
-                <DoughnutChart :data="doughnutData" />
+                <DoughnutChart :type="type" :data="doughnutData" />
             </div>
 
             <div min-w-42 space-y-3>
@@ -126,7 +126,9 @@ const { data } = toRefs(props);
 
 const currency = useCookie('currency');
 
-const doughnutData = computed(() => [data.value.paid.sum, data.value.due.sum, data.value.overdue.sum]);
+const doughnutData = computed<number[]>(() => {
+    return [data.value.paid.quantity, data.value.due.quantity, data.value.overdue.quantity];
+});
 
 function formatQuantity(quantity: number) {
     return quantity > 99 ? '99+' : quantity;

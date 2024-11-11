@@ -19,7 +19,7 @@
                 <div v-if="type === 'payments'" i-mdi-chart-line-variant text-red-7 transform-scale-y--100 />
                 <span>Total payments</span>
             </div>
-            <span text-7 font-700 mb-3>{{ `${data.total.sum} ${currency}` }}</span>
+            <span text-7 font-700 mb-3>{{ `${formatNumber(data.total.sum)} ${currency}` }}</span>
             <span text-3 font-400>
                 Average Payment Days: <span text-primary-blue>{{ data.averagePaymentDays }}&nbsp;days</span>
             </span>
@@ -33,7 +33,7 @@
                     <div i-mdi-wallet text-green-5 h-4.5 w-4.5 />
                     <span text-sm>Paid</span>
                 </div>
-                <span text-4 font-700>{{ `${data.paid.sum} ${currency}` }}</span>
+                <span text-4 font-700>{{ `${formatNumber(data.paid.sum)} ${currency}` }}</span>
             </div>
 
             <div>
@@ -41,14 +41,16 @@
                     <div i-mdi-wallet text-orange-3 h-4.5 w-4.5 />
                     <span text-sm>Not paid (100%)</span>
                 </div>
-                <span text-4 font-700>{{ `${data.unpaid.sum} ${currency}` }}</span>
+                <span text-4 font-700>{{ `${formatNumber(data.unpaid.sum)} ${currency}` }}</span>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { DashboardFormattedData } from '@/types/General';
+import type { DashboardFormattedData } from '~/types/General';
+import { formatNumber } from '~/utils/utils';
+
 interface Props {
     type: 'invoices' | 'payments';
     data: DashboardFormattedData;

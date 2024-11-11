@@ -28,14 +28,14 @@
                 <FinancialSummaryChartDashboard type="invoices" :data="invoicesData" />
                 <FinancialSummaryChartDashboard type="payments" :data="paymentsData" />
             </div>
-            <div flex flex-row items-start justify-between gap-3 class="max-md:flex-col">
+            <div flex flex-row items-start justify-between gap-3 class="max-md:flex-col max-md:items-stretch">
                 <TopOverdueDashboard type="invoices" :data="topOverdueInvoices" />
                 <TopOverdueDashboard type="payments" :data="topOverduePayments" />
             </div>
         </DashboardBlock>
 
         <DashboardBlock title="Cash flow">
-            <CashFlowBlock />
+            <CashFlowBlock :data="cashFlow" />
         </DashboardBlock>
     </div>
 </template>
@@ -44,7 +44,7 @@
 import type { Currency, DashboardFormattedData, Invoice, Payment } from '@/types/General';
 import CurrencyButtons from '~/components/CurrencyButtons.vue';
 import { useGeneralStore } from '@/store/general';
-import TopOverdueDashboard from '~/components/TopOverdueDashboard.vue';
+import TopOverdueDashboard from '~/components/dashboards/TopOverdueDashboard.vue';
 import { calculateDaysDifference } from '@/utils/utils';
 
 const generalStore = useGeneralStore();
@@ -54,8 +54,9 @@ const notificationMessage = ref<string>('');
 
 const { error } = await useFetch('/api/non-existing-endpoint');
 if (error.value) {
-    notificationMessage.value = error.value.message;
-    ElNotification.error(error.value.message);
+    const errorMessage = error.value.message || 'An unexpected error occurred';
+    notificationMessage.value = errorMessage;
+    ElNotification.error(errorMessage);
 }
 
 const currencyCookie = useCookie<Currency>('currency');
@@ -78,6 +79,20 @@ const invoicesData = reactive<DashboardFormattedData>({ ...dashboardBaseObject }
 const paymentsData = reactive<DashboardFormattedData>({ ...dashboardBaseObject });
 const topOverdueInvoices = ref<Invoice[]>([]);
 const topOverduePayments = ref<Payment[]>([]);
+const cashFlow = computed<number[]>(() => {
+    const cashFlowBase: number[] = new Array(12).fill(0);
+    invoices.forEach((el) => {
+        if (el.status === 'paid') {
+            const month = new Date(el.paymentDate).getMonth();
+            cashFlowBase[month] += el.items.reduce((acc, item) => acc + item.price[currency.value] * item.quantity, 0);
+        }
+    });
+    payments.forEach((el) => {
+        const month = new Date(el.paymentDate).getMonth();
+        cashFlowBase[month] -= el.items.reduce((acc, item) => acc + item.price[currency.value] * item.quantity, 0);
+    });
+    return cashFlowBase;
+});
 
 prepareData(invoices, invoicesData);
 prepareData(payments, paymentsData);
@@ -162,8 +177,6 @@ function prepareTopOverdue(data: Array<Invoice | Payment>, formattedObject: Ref<
             return 0;
         })
         .slice(0, 5);
-
-    console.log('formattedObject', formattedObject.value);
 }
 
 useHead({

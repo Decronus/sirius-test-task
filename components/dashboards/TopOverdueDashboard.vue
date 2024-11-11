@@ -1,5 +1,5 @@
 <template>
-    <div w-50% gap-5 rounded-2 p-6 flex-auto block-shadow class="max-sm:p-4 max-md:w-auto">
+    <div w-50% gap-5 rounded-2 p-6 flex-auto block-shadow overflow-y-auto class="max-sm:p-4 max-md:w-auto">
         <div flex items-center gap-2 mb-3>
             <div bg-red-7 w-4.5 h-4.5 min-w-4.5 flex items-center justify-center rounded-full />
             <span v-if="type === 'invoices'">Top-5 Overdue Invoices</span>
@@ -18,9 +18,9 @@
                     {{ calculateDaysDifference(new Date(), new Date(el.issueDate)) }} days ago
                 </div>
                 <div text-sm>
-                    {{ el.items.reduce((acc, curr) => acc + curr.price[currency] * curr.quantity, 0) }}&nbsp;{{
-                        currency
-                    }}
+                    {{
+                        formatNumber(el.items.reduce((acc, curr) => acc + curr.price[currency] * curr.quantity, 0))
+                    }}&nbsp;{{ currency }}
                 </div>
             </div>
         </div>
@@ -29,23 +29,32 @@
 
         <div font-700 flex items-center justify-between text-xl>
             <div>Total</div>
-            <div>860&nbsp;€</div>
+            <div>{{ totalOverdue }}&nbsp;{{ currency }}</div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import type { Invoice, Payment, Currency } from '~/types/General';
-import { calculateDaysDifference } from '@/utils/utils';
+import { calculateDaysDifference, formatNumber } from '~/utils/utils';
 
 interface Props {
     type: 'invoices' | 'payments';
     data: Array<Invoice | Payment>;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const { data } = toRefs(props);
 
 const currency = useCookie<Currency>('currency');
+
+const totalOverdue = computed<string>(() => {
+    return formatNumber(
+        data.value.reduce((acc, curr) => {
+            return acc + curr.items.reduce((acc, curr) => acc + curr.price[currency.value] * curr.quantity, 0);
+        }, 0)
+    );
+});
 </script>
 
 <style scoped></style>

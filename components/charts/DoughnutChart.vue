@@ -7,11 +7,12 @@ import { ref } from 'vue';
 import { Doughnut } from 'vue-chartjs';
 
 interface Props {
+    type: 'invoices' | 'payments';
     data: number[];
 }
 
 const props = defineProps<Props>();
-const { data } = toRefs(props);
+const { type, data } = toRefs(props);
 
 const chartData = computed(() => {
     return {
@@ -28,6 +29,16 @@ const chartData = computed(() => {
 const chartOptions = ref({
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+        tooltip: {
+            callbacks: {
+                label: function (context: any) {
+                    const value = context.raw || 0;
+                    return `${type.value[0].toUpperCase() + type.value.slice(1)}: ${value}`; // Кастомный текст тултипа
+                },
+            },
+        },
+    },
 });
 </script>
 
