@@ -18,7 +18,7 @@
             cursor-pointer
             class="hover:bg-blue-6 hover:text-white"
             :class="{
-                'bg-blue-6 text-white': currency === el.value,
+                'bg-blue-6 text-white!': currency === el.value,
             }"
             @click="currency = el.value"
         >

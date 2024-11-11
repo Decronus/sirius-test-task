@@ -13,22 +13,11 @@ interface Props {
 const props = defineProps<Props>();
 const { data } = toRefs(props);
 
+const currency = useCookie('currency');
+
 const chartData = computed(() => {
     return {
-        labels: [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December',
-        ],
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
             {
                 data: data.value,
@@ -44,6 +33,16 @@ const chartData = computed(() => {
 const chartOptions = ref({
     responsive: true,
     maintainAspectRatio: false,
+    plugins: {
+        tooltip: {
+            callbacks: {
+                label: function (context: any) {
+                    const value = context.raw || 0;
+                    return `${value} ${currency.value}`; // Кастомный текст тултипа
+                },
+            },
+        },
+    },
 });
 </script>
 

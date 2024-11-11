@@ -1,5 +1,5 @@
 <template>
-    <div h-90 w-auto p-6 rounded block-shadow>
+    <div h-90 w-auto p-6 rounded block-shadow class="max-sm:p-4">
         <LineChart :data="data" />
     </div>
 </template>

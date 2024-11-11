@@ -1,75 +1,26 @@
-# Nuxt Minimal Starter
+# Test task for Sirius.expert
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+To the position of Frontend Developer
 
-## Setup
-
-Make sure to install dependencies:
+## Setup and Launch
 
 ```bash
-# npm
-npm install
+git clone https://github.com/Decronus/sirius-test-task.git
 
-# pnpm
-pnpm install
+npm i
 
-# yarn
-yarn install
+nuxt dev
 
-# bun
-bun install
 ```
 
-## Development Server
+## Stack
 
-Start the development server on `http://localhost:3000`:
+• Nuxt 3  
+• UnoCSS  
+• Chart.js  
+• Element Plus
 
-```bash
-# npm
-npm run dev
+### Author
 
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Aleksey Zotin, Frontend Developer  
+[Telegram](https://t.me/AlekseyZotin)
