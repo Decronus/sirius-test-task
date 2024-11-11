@@ -10,8 +10,8 @@ git clone https://github.com/Decronus/sirius-test-task.git
 npm i
 
 nuxt dev
-
 ```
+Deployed on https://sirius-test-task-gjmgamawm-decronus-projects.vercel.app
 
 ## Stack
 
