@@ -41,7 +41,7 @@
                         </div>
                         <span text-sm font-700>Total</span>
                     </div>
-                    <span whitespace-nowrap text-sm font-700>{{ `${data.total.sum} ${currency}` }}</span>
+                    <span whitespace-nowrap text-sm font-700>{{ `${formatNumber(data.total.sum)} ${currency}` }}</span>
                 </div>
 
                 <div w-auto h-0.25 bg-primary-light />
@@ -64,7 +64,7 @@
                         </div>
                         <span text-sm>Received</span>
                     </div>
-                    <span whitespace-nowrap text-sm>{{ `${data.paid.sum} ${currency}` }}</span>
+                    <span whitespace-nowrap text-sm>{{ `${formatNumber(data.paid.sum)} ${currency}` }}</span>
                 </div>
 
                 <div flex justify-between gap-3>
@@ -85,7 +85,7 @@
                         </div>
                         <span text-sm>Due</span>
                     </div>
-                    <span whitespace-nowrap text-sm>{{ `${data.due.sum} ${currency}` }}</span>
+                    <span whitespace-nowrap text-sm>{{ `${formatNumber(data.due.sum)} ${currency}` }}</span>
                 </div>
 
                 <div flex justify-between gap-3>
@@ -106,7 +106,7 @@
                         </div>
                         <span text-sm>Overdue</span>
                     </div>
-                    <span whitespace-nowrap text-sm>{{ `${data.overdue.sum} ${currency}` }}</span>
+                    <span whitespace-nowrap text-sm>{{ `${formatNumber(data.overdue.sum)} ${currency}` }}</span>
                 </div>
             </div>
         </div>
@@ -115,6 +115,7 @@
 
 <script setup lang="ts">
 import type { DashboardFormattedData } from '~/types/General';
+import { formatNumber } from '@/utils/utils';
 
 interface Props {
     type: 'invoices' | 'payments';
