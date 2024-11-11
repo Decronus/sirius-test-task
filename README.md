@@ -11,7 +11,7 @@ npm i
 
 nuxt dev
 ```
-Deployed on https://sirius-test-task-gjmgamawm-decronus-projects.vercel.app
+Deployed on https://sirius-test-task.vercel.app
 
 ## Stack
 
