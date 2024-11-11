@@ -1,5 +1,5 @@
 <template>
-    <div rounded-2 p-4 flex-auto block-shadow overflow-y-auto class="sm:p-6">
+    <div rounded-2 p-6 w-50% block-shadow overflow-y-auto class="max-sm:p-4 max-md:w-auto">
         <div flex justify-between items-center gap-15 mb-5 w-auto>
             <div v-if="type === 'invoices'" flex items-center gap-1>
                 <div i-mdi-chart-line-variant text-green-5 />
@@ -11,15 +11,15 @@
             </div>
 
             <span text-3 font-400 whitespace-nowrap>
-                Average Payment Date:
+                Average Payment Days:
                 <br />
-                <span text-primary-blue>0&nbsp;days</span></span
+                <span text-primary-blue>{{ data.averagePaymentDays }}&nbsp;days</span></span
             >
         </div>
 
         <div flex justify-between gap-4 class="max-sm:flex-col items-center">
             <div w-32 h-32 class="max-lg:w-28 h-28">
-                <DoughnutChart />
+                <DoughnutChart :data="doughnutData" />
             </div>
 
             <div min-w-42 space-y-3>
@@ -33,15 +33,15 @@
                             items-center
                             justify-center
                             rounded-full
-                            text-xs
                             bg-blue-6
                             text-white
+                            :class="[data.total.quantity <= 99 ? 'text-xs' : 'text-2']"
                         >
-                            5
+                            {{ formatQuantity(data.total.quantity) }}
                         </div>
                         <span text-sm font-700>Total</span>
                     </div>
-                    <span whitespace-nowrap text-sm font-700>13 925 RON</span>
+                    <span whitespace-nowrap text-sm font-700>{{ `${data.total.sum} ${currency}` }}</span>
                 </div>
 
                 <div w-auto h-0.25 bg-primary-light />
@@ -56,15 +56,15 @@
                             items-center
                             justify-center
                             rounded-full
-                            text-xs
                             bg-blue-4
                             text-white
+                            :class="[data.paid.quantity <= 99 ? 'text-xs' : 'text-2']"
                         >
-                            3
+                            {{ formatQuantity(data.paid.quantity) }}
                         </div>
                         <span text-sm>Received</span>
                     </div>
-                    <span whitespace-nowrap text-sm>13 925 RON</span>
+                    <span whitespace-nowrap text-sm>{{ `${data.paid.sum} ${currency}` }}</span>
                 </div>
 
                 <div flex justify-between gap-3>
@@ -77,25 +77,36 @@
                             items-center
                             justify-center
                             rounded-full
-                            text-xs
                             bg-blue-3
                             text-dark-3
+                            :class="[data.due.quantity < 99 ? 'text-xs' : 'text-2']"
                         >
-                            0
+                            {{ formatQuantity(data.due.quantity) }}
                         </div>
                         <span text-sm>Due</span>
                     </div>
-                    <span whitespace-nowrap text-sm>13 925 RON</span>
+                    <span whitespace-nowrap text-sm>{{ `${data.due.sum} ${currency}` }}</span>
                 </div>
 
                 <div flex justify-between gap-3>
                     <div flex gap-2>
-                        <div flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs bg-red-7 text-white>
-                            1
+                        <div
+                            flex
+                            h-5
+                            w-5
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-red-7
+                            text-white
+                            :class="[data.overdue.quantity <= 99 ? 'text-xs' : 'text-2']"
+                        >
+                            {{ formatQuantity(data.overdue.quantity) }}
                         </div>
                         <span text-sm>Overdue</span>
                     </div>
-                    <span whitespace-nowrap text-sm>6 925 RON</span>
+                    <span whitespace-nowrap text-sm>{{ `${data.overdue.sum} ${currency}` }}</span>
                 </div>
             </div>
         </div>
@@ -103,11 +114,23 @@
 </template>
 
 <script setup lang="ts">
+import type { DashboardFormattedData } from '~/types/General';
+
 interface Props {
     type: 'invoices' | 'payments';
+    data: DashboardFormattedData;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+const { data } = toRefs(props);
+
+const currency = useCookie('currency');
+
+const doughnutData = computed(() => [data.value.paid.sum, data.value.due.sum, data.value.overdue.sum]);
+
+function formatQuantity(quantity: number) {
+    return quantity > 99 ? '99+' : quantity;
+}
 </script>
 
 <style scoped></style>

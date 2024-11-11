@@ -2,20 +2,27 @@
     <Doughnut :data="chartData" :options="chartOptions" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { Doughnut } from 'vue-chartjs';
 
-const chartData = ref({
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [
-        {
-            label: 'My Dataset',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
-            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
-        },
-    ],
+interface Props {
+    data: number[];
+}
+
+const props = defineProps<Props>();
+const { data } = toRefs(props);
+
+const chartData = computed(() => {
+    return {
+        labels: ['Received', 'Due', 'Overdue'],
+        datasets: [
+            {
+                data: data.value,
+                backgroundColor: ['#60A5FAFF', '#93C5FDFF', '#B91C1CFF'],
+            },
+        ],
+    };
 });
 
 const chartOptions = ref({

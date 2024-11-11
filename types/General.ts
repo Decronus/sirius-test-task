@@ -27,3 +27,17 @@ export interface Option<T> {
 
 export type Invoice = Transaction;
 export type Payment = Transaction;
+
+export interface DashboardFormattedData {
+    total: DashboardFormattedDataEl;
+    paid: DashboardFormattedDataEl;
+    unpaid: DashboardFormattedDataEl;
+    due: DashboardFormattedDataEl;
+    overdue: DashboardFormattedDataEl;
+    averagePaymentDays: number;
+}
+
+export interface DashboardFormattedDataEl {
+    sum: number;
+    quantity: number;
+}

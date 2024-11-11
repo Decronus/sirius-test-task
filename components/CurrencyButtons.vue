@@ -44,7 +44,6 @@ const currencyCookie = useCookie('currency');
 const currency = computed<Currency>({
     get: () => modelValue.value,
     set: (value) => {
-        // localStorage.setItem('currency', value);
         currencyCookie.value = value;
         emit('update:modelValue', value);
     },
